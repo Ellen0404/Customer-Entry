@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, } from "reactstrap";
-import Wrapper from "./components/Wrapper";
+// import Wrapper from "./components/Wrapper";
 
 
 import FormBar from "./components/FormBar";
@@ -11,14 +11,14 @@ function App() {
     <Container>
       <div className="newBaner">
         <br></br>
-        <Wrapper className="mt-n1">
-          <FormBar />
-        </Wrapper>
+
+        <FormBar />
+
 
       </div>
 
 
-      <EntryList />
+      {/* <EntryList /> */}
     </Container>
   );
 }
