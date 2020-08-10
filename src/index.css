@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.newBaner{
+  height: 50vh;
+  background-image: url(https://res.cloudinary.com/https-victoriavasilyeva-photography/image/upload/v1588451492/aerial-architectural-design-architecture-buildings-373912.jpg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size:cover;
+  justify-content: center;
+  align-items: center;
+  align-content: center
+}
