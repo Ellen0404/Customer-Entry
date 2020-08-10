@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Row, Col, } from "reactstrap";
-import { FormGroup, Label, Input, Button } from "reactstrap";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
 
-const Form = () => {
+const FormBar = () => {
 
     const [state, setState] = useState({
         firstName: "",
@@ -12,13 +12,30 @@ const Form = () => {
 
     const { firstName, lastName } = state;
 
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        setState({ ...state, [name]: value });
+    };
+
+    const handleFormSubmit = event => {
+        event.preventDefault();
+        alert(`Hello ${firstName}  ${lastName}`);
+
+        setState({
+            firstName: "",
+            lastName: ""
+        })
+    };
+
     return (
-        <Form>
-            <FormGroup>
+        <>
+
+            <FormGroup style={{ width: 350 }}>
                 <Label for="firstName">First Name</Label>
                 <Input
                     value={firstName}
                     name="firstName"
+                    onChange={handleInputChange}
                     type="text"
                     id="firstName"
                     placeholder="Enter your First Name"
@@ -27,14 +44,15 @@ const Form = () => {
                 <Input
                     value={lastName}
                     name="lastName"
+                    onChange={handleInputChange}
                     type="text"
                     id="lastName"
                     placeholder="Enter your Last Name"
                 />
-                <Button>Submit</Button>
+                <Button onClick={handleFormSubmit}>Submit</Button>
             </FormGroup>
-        </Form>
+        </>
     )
 }
 
-export default Form;
+export default FormBar;

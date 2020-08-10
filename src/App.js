@@ -1,14 +1,20 @@
 import React from 'react';
 import { Container, Row, Col, } from "reactstrap";
+import Wrapper from "./components/Wrapper";
 
-import Form from "./components/Form";
+
+import FormBar from "./components/FormBar";
 import EntryList from "./components/EntryList";
 
 function App() {
   return (
     <Container>
       <div className="newBaner">
-        <Form />
+        <br></br>
+        <Wrapper className="mt-n1">
+          <FormBar />
+        </Wrapper>
+
       </div>
 
 
