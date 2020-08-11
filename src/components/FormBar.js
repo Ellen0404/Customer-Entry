@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-// import { Container, Row, Col, } from "reactstrap";
-import { FormGroup, Label, Input, Button } from "reactstrap";
+import React, { useState } from "react";
+import { FormGroup, Label, Input, Button, Jumbotron } from "reactstrap";
 import Modal from 'react-bootstrap/Modal';
 
 import Wrapper from "./Wrapper";
-
-
 import EntryList from "./EntryList";
 
 
@@ -42,11 +39,18 @@ const FormBar = () => {
 
     const handleFormSubmit = event => {
         event.preventDefault();
+        if (!firstName || !lastName) {
+            setCurrentUser({
+                firstName: "",
+                lastName: ""
+            })
+            return alert("Fill out your First and Last name please!");
+        }
 
         if (Array.isArray(usersData)) {
 
             for (var i = 0; i < usersData.length; i++) {
-                if (usersData.find(user => user.firstName === firstName && user.lastName)) {
+                if (usersData.find(user => user.firstName === firstName && user.lastName === lastName)) {
                     return handleShow();
                 }
             }
@@ -55,6 +59,8 @@ const FormBar = () => {
         // console.log(usersData)
 
     };
+
+
     const saveToList = () => {
 
         setUsersData([...usersData,
@@ -69,65 +75,69 @@ const FormBar = () => {
             firstName: "",
             lastName: ""
         })
-
-
-    }
+    };
 
     const deleteUser = id => {
         // console.log(id)
         const deleteArray = usersData.filter(user => user.id !== id);
-        // console.log("deleted array: ")
-        // console.log(deleteArray)
         setUsersData(deleteArray);
-        // console.log("users data array: ")
-        // console.log(usersData)
-
     }
 
     return (
         <>
             <Wrapper className="mt-n1">
+                <h1>Customer entry</h1>
                 <FormGroup style={{ width: 350 }}>
-                    <Label for="firstName">First Name</Label>
-                    <Input
+                    <Label hidden for="firstName">First Name</Label>
+                    <Input style={{ padding: 10, margin: 5 }}
                         value={firstName}
                         name="firstName"
                         onChange={handleInputChange}
                         type="text"
-                        // id="firstName"
-                        placeholder="Enter your First Name"
+                        id="firstName"
+                        placeholder="Enter First Name..."
                     />
-                    <Label for="lastName">Last Name</Label>
-                    <Input
+                    <Label hidden for="lastName">Last Name</Label>
+                    <Input style={{ padding: 10, margin: 5 }}
                         value={lastName}
                         name="lastName"
                         onChange={handleInputChange}
                         type="text"
-                        // id="lastName"
-                        placeholder="Enter your Last Name"
+                        id="lastName"
+                        placeholder="Enter Last Name..."
                     />
-                    <Button onClick={handleFormSubmit}>Submit</Button>
+                    <Button style={{ padding: 10, margin: 5 }}
+                        className="ui green button"
+                        onClick={handleFormSubmit}
+                    >
+                        Submit
+                    </Button>
                 </FormGroup>
                 <Modal show={show} >
                     <Modal.Header >
-                        <Modal.Title>Warning</Modal.Title>
+                        <Modal.Title><i style={{ width: 40 }} className="exclamation triangle icon"></i></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h3>You already have {firstName} {lastName} in the list, would you like to add it again?</h3>
+                        <h4>
+                            You already have {firstName} {lastName} in the list, would you like to add it again?
+                        </h4>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button className="ui inverted green button" onClick={handleAdd}>
                             Add
                              </Button>
-                        <Button className="ui inverted red button" onClick={handleDelete}>
+                        <Button className="ui inverted orange button" onClick={handleDelete}>
                             Delete
                              </Button>
                     </Modal.Footer>
                 </Modal>
             </Wrapper>
-            <div>
+            <Jumbotron className="mt-n1">
+                <h2>New Customers</h2>
+                <hr></hr>
                 {usersData.length ? (
-                    <ul style={{ listStyle: "none" }}>
+
+                    <div className="ui middle aligned divided list">
                         {usersData.map(user => (
                             <EntryList
                                 key={usersData.indexOf(user)}
@@ -138,11 +148,12 @@ const FormBar = () => {
 
                             />
                         ))}
-                    </ul>
+                    </div>
                 ) : (
                         null
                     )}
-            </div>
+
+            </Jumbotron>
         </>
     )
 }
