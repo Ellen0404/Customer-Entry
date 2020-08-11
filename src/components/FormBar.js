@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { FormGroup, Label, Input, Button, Jumbotron } from "reactstrap";
 import Modal from 'react-bootstrap/Modal';
 
@@ -8,9 +9,10 @@ import EntryList from "./EntryList";
 
 const FormBar = () => {
 
+
     const [currentUser, setCurrentUser] = useState({
         firstName: "",
-        lastName: ""
+        lastName: "",
     });
 
     const { firstName, lastName } = currentUser;
@@ -60,14 +62,18 @@ const FormBar = () => {
 
     };
 
+    const createId = () => {
+        var uniqueId = uuidv4();
+        return uniqueId;
 
+    };
     const saveToList = () => {
 
         setUsersData([...usersData,
         {
             firstName: firstName,
             lastName: lastName,
-            id: usersData.length
+            id: createId()
         }
         ]);
 
@@ -143,7 +149,7 @@ const FormBar = () => {
                                 key={usersData.indexOf(user)}
                                 firstName={user.firstName}
                                 lastName={user.lastName}
-                                id={usersData.indexOf(user)}
+                                id={user.id}
                                 deleteUser={deleteUser}
 
                             />
