@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, } from "reactstrap";
+// import { Container, Row, Col, } from "reactstrap";
 import { FormGroup, Label, Input, Button } from "reactstrap";
 import Modal from 'react-bootstrap/Modal';
 
@@ -17,25 +17,22 @@ const FormBar = () => {
     });
 
     const { firstName, lastName } = currentUser;
-    const [dublicate, setDublicate] = useState(false)
     const [usersData, setUsersData] = useState([]);
 
-    // const [userCount, setUserCount]=useState({
-
-    // })
     const [show, setShow] = useState(false);
-    const handleShow = () => {
-        setDublicate(true);
-        setShow(true)
-    };
+
+    const handleShow = () => setShow(true);
+
     const handleAdd = () => {
-        setDublicate(false);
         saveToList();
         setShow(false);
     };
     const handleDelete = () => {
-        setDublicate(true);
         setShow(false);
+        setCurrentUser({
+            firstName: "",
+            lastName: ""
+        })
     }
 
     const handleInputChange = event => {
@@ -46,52 +43,46 @@ const FormBar = () => {
     const handleFormSubmit = event => {
         event.preventDefault();
 
-
         if (Array.isArray(usersData)) {
 
             for (var i = 0; i < usersData.length; i++) {
-                if (usersData[i].firstName === firstName && usersData[i].lastName === lastName) {
-                    // setDublicate(true);
-                    // saveToList();
-                    handleShow();
-
+                if (usersData.find(user => user.firstName === firstName && user.lastName)) {
+                    return handleShow();
                 }
-
             }
-            setDublicate(false);
             saveToList();
-
         }
-        console.log(usersData)
-        // setCurrentUser({
-        //     firstName: "",
-        //     lastName: ""
-        // })
-    }
+        // console.log(usersData)
+
+    };
     const saveToList = () => {
-        if (dublicate === false) {
-            setUsersData([...usersData,
-            {
-                firstName: firstName,
-                lastName: lastName,
-                isDublicate: false
-            }
-            ]);
-        } else { return }
+
+        setUsersData([...usersData,
+        {
+            firstName: firstName,
+            lastName: lastName,
+            isDublicate: false
+        }
+        ]);
+        // setUsersData([{ ...currentUser }])
+        setCurrentUser({
+            firstName: "",
+            lastName: ""
+        })
+
 
     }
-    // const saveToList = () => {
-    //     if (setUsersData.isDublicate === false) {
-    //         setUsersData([...usersData,
-    //         {
-    //             firstName: firstName,
-    //             lastName: lastName,
-    //             isDublicate: false
-    //         }
-    //         ]);
-    //     } else { return }
 
-    // }
+    const deleteUser = firstName => {
+        const deleteArray = usersData.filter(user => user.firstName !== firstName);
+        // console.log("deleted array: ")
+        // console.log(deleteArray)
+        setUsersData(deleteArray);
+        // console.log("users data array: ")
+        // console.log(usersData)
+
+    }
+
     return (
         <>
             <Wrapper className="mt-n1">
@@ -116,23 +107,24 @@ const FormBar = () => {
                     />
                     <Button onClick={handleFormSubmit}>Submit</Button>
 
-                    <Modal show={show} >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Warning</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <h3>You already have {firstName} {lastName} in the list, would you like to add it again?</h3>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button className="ui inverted green button" onClick={handleAdd}>
-                                Add
-                             </Button>
-                            <Button className="ui inverted red button" onClick={handleDelete}>
-                                Delete
-                             </Button>
-                        </Modal.Footer>
-                    </Modal>
+
                 </FormGroup>
+                <Modal show={show} >
+                    <Modal.Header >
+                        <Modal.Title>Warning</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h3>You already have {firstName} {lastName} in the list, would you like to add it again?</h3>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button className="ui inverted green button" onClick={handleAdd}>
+                            Add
+                             </Button>
+                        <Button className="ui inverted red button" onClick={handleDelete}>
+                            Delete
+                             </Button>
+                    </Modal.Footer>
+                </Modal>
             </Wrapper>
             <div>
                 {usersData.length ? (
@@ -142,6 +134,9 @@ const FormBar = () => {
                                 key={usersData.indexOf(user)}
                                 firstName={user.firstName}
                                 lastName={user.lastName}
+                                id={usersData.indexOf(user)}
+                                deleteUser={deleteUser}
+
                             />
                         ))}
                     </ul>
