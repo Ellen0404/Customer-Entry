@@ -61,10 +61,10 @@ const FormBar = () => {
         {
             firstName: firstName,
             lastName: lastName,
-            isDublicate: false
+            id: usersData.length
         }
         ]);
-        // setUsersData([{ ...currentUser }])
+
         setCurrentUser({
             firstName: "",
             lastName: ""
@@ -73,8 +73,9 @@ const FormBar = () => {
 
     }
 
-    const deleteUser = firstName => {
-        const deleteArray = usersData.filter(user => user.firstName !== firstName);
+    const deleteUser = id => {
+        // console.log(id)
+        const deleteArray = usersData.filter(user => user.id !== id);
         // console.log("deleted array: ")
         // console.log(deleteArray)
         setUsersData(deleteArray);
@@ -93,7 +94,7 @@ const FormBar = () => {
                         name="firstName"
                         onChange={handleInputChange}
                         type="text"
-                        id="firstName"
+                        // id="firstName"
                         placeholder="Enter your First Name"
                     />
                     <Label for="lastName">Last Name</Label>
@@ -102,12 +103,10 @@ const FormBar = () => {
                         name="lastName"
                         onChange={handleInputChange}
                         type="text"
-                        id="lastName"
+                        // id="lastName"
                         placeholder="Enter your Last Name"
                     />
                     <Button onClick={handleFormSubmit}>Submit</Button>
-
-
                 </FormGroup>
                 <Modal show={show} >
                     <Modal.Header >
