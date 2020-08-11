@@ -14,7 +14,7 @@ When adding a customer to the list validate that you might be adding a duplicate
  ```sh
 $ npm start from CLI
 ```
-or use deployed - [ link ](#Link-to-app)
+or use deployed - [ link ](#Link-to-the-Deployed-App)
 
 
 > ## Hightlights:
