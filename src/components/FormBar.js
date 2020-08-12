@@ -52,7 +52,7 @@ const FormBar = () => {
         if (Array.isArray(usersData)) {
 
             for (var i = 0; i < usersData.length; i++) {
-                if (usersData.find(user => user.firstName === firstName && user.lastName === lastName)) {
+                if (usersData.find(user => user.firstName === firstName.trim() && user.lastName === lastName.trim())) {
                     return handleShow();
                 }
             }
@@ -71,8 +71,8 @@ const FormBar = () => {
 
         setUsersData([...usersData,
         {
-            firstName: firstName,
-            lastName: lastName,
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
             id: createId()
         }
         ]);
@@ -84,7 +84,7 @@ const FormBar = () => {
     };
 
     const deleteUser = id => {
-        // console.log(id)
+        console.log(id)
         const deleteArray = usersData.filter(user => user.id !== id);
         setUsersData(deleteArray);
     }
